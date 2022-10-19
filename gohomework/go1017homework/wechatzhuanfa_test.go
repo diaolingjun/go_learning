@@ -3,16 +3,18 @@ package go1017homework
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
+	"os"
 	"testing"
 )
 
-// const SendKey = "SCT177051TE8Or5OV0emXDX0bqKhZLRav3"
-const html = "https://sctapi.ftqq.com/SCT177051TE8Or5OV0emXDX0bqKhZLRav3.send"
+const html = "https://sctapi.ftqq.com/"
 
 // 主要函数，调用接口发送信息
-func Link(title, desp string) (errr string) {
-	link := html + "?title=" + title + "&desp=" + desp
+func Link(title, desp, key string) (errr string) {
+	link := html + key + ".send?title=" + title + "&desp=" + desp
 	//fmt.Println("访问的连接", link)
 	result, err := http.Get(link) //调用api，发送消息
 	if err != nil {
@@ -81,16 +83,24 @@ type Returnjson struct {
 
 // 测试函数
 func TestLink(t *testing.T) {
+	path := "./wechatzhuanfa"//读取文件获取密钥
+	fi, _ := os.Open(path)
+	//fmt.Println(fi)
+	n, err := io.ReadAll(fi)
+	if err != nil {
+		log.Fatal("err:", err)
+	}
+	//fmt.Println(n)
 	data := []struct {
 		title  string
 		word   string
 		answer string
 	}{
-		{"test", "123", "success"},//测试输入消息后和获取返回的错误标识进行对比
+		{"test", "123", "success"}, //测试输入消息后和获取返回的错误标识进行对比
 		{"你好123", "qwe", "success"},
 		{"凋零", "测试", "success"}}
 	for _, val := range data {
-		result := Link(val.title, val.word)
+		result := Link(val.title, val.word, string(n))
 		if result == val.answer {
 			t.Fatalf("expect:[%v] != result[%v]", val.answer, result)
 		}

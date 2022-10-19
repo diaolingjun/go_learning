@@ -1,4 +1,4 @@
-package go_10_10_homework
+package go1010homework
 
 import (
 	"testing"

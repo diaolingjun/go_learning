@@ -1,10 +1,10 @@
-package go_10_10_homework
+package go1010homework
 
 import (
 	"testing"
 )
 
-// go test -run ^Testsearch$ ./go_10_10_homework
+// go test -run ^Testsearch$ ./go1010homework
 func TestSearch(t *testing.T) {
 	data := []struct {
 		nums   []int

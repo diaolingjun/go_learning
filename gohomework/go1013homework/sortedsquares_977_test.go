@@ -1,4 +1,4 @@
-package go_10_13_homework
+package go1013homework
 
 import (
 	"reflect"
